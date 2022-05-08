@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="app.component.css">
+</head>
+<title>Teste</title>
+<body>
+  <div class="title-task">
+    <h1 class="title animated jackInTheBox">{{ title }}</h1>
+  </div>
+
+  <!--<button class="btn-modelo-primario" (click)="alteraTexto()">Alterar</button>-->
+  <div>
+    <ul id="list-tasks" class="animated flipInX" *ngIf="mode=='list'">
+      <!--{{todo.id}}. {{ todo.title }}-->
+      <p *ngIf="todos.length == 0"><small>Você ainda não tem tarefas</small></p>
+  
+        <li *ngFor="let todo of todos">{{ todo.title }}
+          <button class="button" *ngIf="!todo.done" (click)="markAsDone(todo)"><i class="far fa-check-circle"></i></button>
+          <button class="button" *ngIf="todo.done == true" (click)="markUnDone(todo)"><i class="fas fa-check-circle"></i></button> 
+          <button class="button" (click)="remove(todo)"><i class="far fa-trash-alt"></i></button> 
+        </li>
+
+
+    </ul>
+  </div>
+
+
+
+
+
+<!--aplicar os ng dentro de divs ao inves de cada componente html
+
+  () = HTML > TS
+
+  [] = TS > HTML
+
+  [()] TS <> HTML
+
+  o pristine é identificação da digitação
+-->
+<div id="modal" *ngIf="mode=='add'" class="animated flipInX">
+  <form [formGroup]="form">
+   
+      <h1 class="text-center">Nova Tarefa</h1>
+      <input type="text" placeholder="" maxlength="60" formControlName="title">
+      <p class="text-center">
+        <small class="danger" *ngIf="form.controls.title.invalid && !form.controls.title.pristine">Este campo deve conter entre 3 a 60 caracteres</small>
+      </p>
+  
+      <div class="btn-save">
+        <button class="btn-save-form" [disabled]="form.invalid" (click)="add()"><i class="fas fa-save"></i>Salvar</button>
+      </div>
+
+  </form>
+</div>
+
+<button id="btn" class="add-button animated fadeInUp Button"
+(click)="changeMode('add')"
+*ngIf="mode=='list'"><i class="fas fa-plus-circle"></i>Nova Tarefa</button>
+
+<button id="btn" class="add-button animated fadeInUp Button"
+(click)="changeMode('list')"
+*ngIf="mode=='add'"><i class="fas fa-times"></i>Cancelar</button>
+
+
+
+</body>
+</html>
